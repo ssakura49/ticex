@@ -93,7 +93,19 @@ public class ModifiableIronsSpellbookItem extends SpellBook implements IModifiab
     @Nullable
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
+        this.initializeSpellContainer(stack);
         return new ToolCapabilityProvider(stack);
+    }
+
+    @Override
+    public void initializeSpellContainer(ItemStack itemStack) {
+        if (itemStack != null) {
+            if (!ISpellContainer.isSpellContainer(itemStack)) {
+                ISpellContainer spellContainer = ISpellContainer.create(this.getMaxSpellSlots(), true, true);
+                spellContainer.save(itemStack);
+            }
+
+        }
     }
 
     @Override
